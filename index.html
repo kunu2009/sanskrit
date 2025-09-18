@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit HSC 12th - Complete Learning App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B4513;
+            --secondary: #FF8C00;
+            --accent: #FFD700;
+            --dark: #2C1810;
+            --light: #FFF8DC;
+            --success: #4CAF50;
+            --danger: #f44336;
+            --info: #2196F3;
+        }
+
+        body {
+            font-family: 'Noto Sans Devanagari', 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(135deg, #FFF8DC 0%, #FAEBD7 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Chapter Sections */
+        .chapter-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .chapter-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chapter Header */
+        .chapter-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .chapter-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .chapter-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* Content Cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Shloka Display */
+        .shloka-container {
+            background: linear-gradient(135deg, #FFF8DC 0%, #FAEBD7 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+        }
+
+        .shloka-text {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .shloka-meaning {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        /* Vocabulary Section */
+        .vocab-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .vocab-item {
+            background: linear-gradient(135deg, var(--light) 0%, white 100%);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .vocab-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .vocab-sanskrit {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .vocab-meaning {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Grammar Section */
+        .grammar-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .grammar-table th,
+        .grammar-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .grammar-table th {
+            background: var(--primary);
+            color: white;
+        }
+
+        .grammar-table tr:hover {
+            background: var(--light);
+        }
+
+        /* Interactive Elements */
+        .interactive-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .question-box {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .options {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .option {
+            background: white;
+            padding: 1rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+
+        .option.selected {
+            background: var(--accent);
+            border-color: var(--secondary);
+        }
+
+        .option.correct {
+            background: #c8e6c9;
+            border-color: var(--success);
+        }
+
+        .option.incorrect {
+            background: #ffcdd2;
+            border-color: var(--danger);
+        }
+
+        /* Audio Player */
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .play-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .play-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Progress Tracker */
+        .progress-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            height: 100%;
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Study Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Flashcard */
+        .flashcard {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+
+        .flashcard-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: white;
+            color: var(--dark);
+            transform: rotateY(180deg);
+            border: 3px solid var(--primary);
+        }
+
+        .flashcard-content {
+            text-align: center;
+        }
+
+        .flashcard-main {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .flashcard-sub {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: var(--primary);
+            text-decoration: underline dotted;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vocab-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flashcard {
+                height: 300px;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            border: 5px solid var(--light);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Achievement Badges */
+        .achievements {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .badge {
+            background: white;
+            padding: 1rem;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .badge:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .badge.locked {
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+
+        .badge-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .badge-name {
+            font-size: 0.7rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span>🕉️</span>
+                <span>संस्कृतम् HSC 12th</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="switchChapter('intro')">Introduction</button>
+                <button class="nav-tab" onclick="switchChapter('chapter1')">Chapter 1</button>
+                <button class="nav-tab" onclick="switchChapter('chapter2')">Chapter 2</button>
+                <button class="nav-tab" onclick="switchChapter('practice')">Practice</button>
+                <button class="nav-tab" onclick="switchChapter('tools')">Study Tools</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Introduction Section -->
+        <section id="intro" class="chapter-section active">
+            <div class="chapter-header">
+                <h1 class="chapter-title">Welcome to Sanskrit Learning! 🙏</h1>
+                <p class="chapter-subtitle">Your journey to mastering HSC Sanskrit starts here</p>
+            </div>
+
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>📚 About This Course</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>This app is specially designed for HSC 12th students who have never studied Sanskrit before. We'll take you from absolute beginner to exam-ready!</p>
+                        <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Complete coverage of both chapters</li>
+                            <li>Step-by-step learning approach</li>
+                            <li>Interactive exercises and quizzes</li>
+                            <li>Audio pronunciation guides</li>
+                            <li>Exam-focused preparation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>🎯 Learning Path</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%">0% Complete</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <p><strong>Your 16-Week Journey:</strong></p>
+                            <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                <li>Basic Script & Pronunciation (Week 1-2)</li>
+                                <li>Chapter 1: व्यावहारिक-सूचनाः (Week 3-8)</li>
+                                <li>Chapter 2: मनोविनोदनम् (Week 9-14)</li>
+                                <li>Revision & Practice (Week 15-16)</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>✨ Quick Start Guide</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>How to use this app effectively:</strong></p>
+                        <ol style="margin-top: 1rem; padding-left: 1.5rem;">
+                            <li>Start with the Devanagari script basics</li>
+                            <li>Learn 5 new words daily</li>
+                            <li>Practice pronunciation with audio</li>
+                            <li>Complete daily exercises</li>
+                            <li>Track your progress regularly</li>
+                        </ol>
+                        <button class="btn btn-primary" style="margin-top: 1rem;" onclick="startLearning()">
+                            Start Learning Now →
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Devanagari Script Basics -->
+            <div class="vocab-section">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">📝 Devanagari Script Basics</h2>
+                <div class="grammar-table" style="overflow-x: auto;">
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>स्वराः (Vowels)</th>
+                                <th>Pronunciation</th>
+                                <th>व्यञ्जनाः (Consonants)</th>
+                                <th>Pronunciation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>अ आ इ ई</td>
+                                <td>a, ā, i, ī</td>
+                                <td>क ख ग घ ङ</td>
+                                <td>ka, kha, ga, gha, ṅa</td>
+                            </tr>
+                            <tr>
+                                <td>उ ऊ ऋ ॠ</td>
+                                <td>u, ū, ṛ, ṝ</td>
+                                <td>च छ ज झ ञ</td>
+                                <td>ca, cha, ja, jha, ña</td>
+                            </tr>
+                            <tr>
+                                <td>ए ऐ ओ औ</td>
+                                <td>e, ai, o, au</td>
+                                <td>ट ठ ड ढ ण</td>
+                                <td>ṭa, ṭha, ḍa, ḍha, ṇa</td>
+                            </tr>
+                            <tr>
+                                <td>अं अः</td>
+                                <td>aṃ, aḥ</td>
+                                <td>त थ द ध न</td>
+                                <td>ta, tha, da, dha, na</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1 Section -->
+        <section id="chapter1" class="chapter-section">
+            <div class="chapter-header">
+                <h1 class="chapter-title">Chapter 1: व्यावहारिक-सूचनाः</h1>
+                <p class="chapter-subtitle">Practical Signs and Daily Vocabulary</p>
+            </div>
+
+            <!-- Traffic Signs -->
+            <div class="vocab-section">
+                <h2 style="color: var(--primary);">🚦 Traffic Signs (यातायात-सूचनाः)</h2>
+                <div class="vocab-grid">
+                    <div class="vocab-item" onclick="playWord('गतिरोधकः अग्रे')">
+                        <div class="vocab-sanskrit">गतिरोधकः अग्रे</div>
+                        <div class="vocab-meaning">Speed Breaker Ahead</div>
+                    </div>
+                    <div class="vocab-item" onclick="playWord('एकदिशया गन्तव्यम्')">
+                        <div class="vocab-sanskrit">एकदिशया गन्तव्यम्</div>
+                        <div class="vocab-meaning">One Way</div>
+                    </div>
+                    <div class="vocab-item" onclick="playWord('संकुचितमार्गः अग्रे')">
+                        <div class="vocab-sanskrit">संकुचितमार्गः अग्रे</div>
+                        <div class="vocab-meaning">Narrow Road Ahead</div>
+                    </div>
+                    <div class="vocab-item" onclick="playWord('दक्षिणवलन-निषेधः')">
+                        <div class="vocab-sanskrit">दक्षिणवलन-निषेधः</div>
+                        <div class="vocab-meaning">No Right Turn</div>
+                    </div>
+                    <div class="vocab-item" onclick="playWord('पाठशाला अग्रे')">
+                        <div class="vocab-sanskrit">पाठशाला अग्रे</div>
+                        <div class="vocab-meaning">School Ahead</div>
+                    </div>
+                    <div class="vocab-item" onclick="playWord('प्रवेशः निषिद्धः')">
+                        <div class="vocab-sanskrit">प्रवेशः निषिद्धः</div>
+                        <div class="vocab-meaning">No Entry</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vocabulary Categories -->
+            <div class="content-grid">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>🎵 Musical Instruments (वाद्यम्)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="vocab-grid">
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">वीणा</div>
+                                <div class="vocab-meaning">Lute</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">वेणुः</div>
+                                <div class="vocab-meaning">Flute</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">ढक्का</div>
+                                <div class="vocab-meaning">Double Drum</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">तालः</div>
+                                <div class="vocab-meaning">Cymbal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>🎭 Drama & Theatre (नाट्यम्)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="vocab-grid">
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">रङ्गशाला</div>
+                                <div class="vocab-meaning">Theatre</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">सूत्रधारः</div>
+                                <div class="vocab-meaning">Stage Director</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">कथावस्तु</div>
+                                <div class="vocab-meaning">Plot</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">नेपथ्यगृहम्</div>
+                                <div class="vocab-meaning">Greenroom</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3>⚽ Sports & Games (क्रीडा)</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="vocab-grid">
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">चतुरङ्गः</div>
+                                <div class="vocab-meaning">Chess</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">कन्दुकक्रीडा</div>
+                                <div class="vocab-meaning">Ball Game</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">मल्लक्रीडा</div>
+                                <div class="vocab-meaning">Wrestling</div>
+                            </div>
+                            <div class="vocab-item">
+                                <div class="vocab-sanskrit">जलतरणम्</div>
+                                <div class="vocab-meaning">Swimming</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grammar Table -->
+            <div class="grammar-section">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">📖 Grammar - Tenses & Moods</h2>
+                <table class="grammar-table">
+                    <thead>
+                        <tr>
+                            <th>संस्कृतम्</th>
+                            <th>English</th>
+                            <th>Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>लट् (वर्तमानकालः)</td>
+                            <td>Present Tense</td>
+                            <td>पठति (reads), गच्छति (goes)</td>
+                        </tr>
+                        <tr>
+                            <td>लङ् (भूतकालः)</td>
+                            <td>Past Tense</td>
+                            <td>अपठत् (read), अगच्छत् (went)</td>
+                        </tr>
+                        <tr>
+                            <td>लोट् (आज्ञार्थः)</td>
+                            <td>Imperative</td>
+                            <td>पठ (Read!), गच्छ (Go!)</td>
+                        </tr>
+                        <tr>
+                            <td>विधिलिङ् (विध्यर्थः)</td>
+                            <td>Potential Mood</td>
+                            <td>पठेत् (should read)</td>
+                        </tr>
+                        <tr>
+                            <td>लृट् (भविष्यकालः)</td>
+                            <td>Future Tense</td>
+                            <td>पठिष्यति (will read)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Chapter 2 Section -->
+        <section id="chapter2" class="chapter-section">
+            <div class="chapter-header">
+                <h1 class="chapter-title">Chapter 2: मनोविनोदनम्</h1>
+                <p class="chapter-subtitle">Entertainment & Subhashitas</p>
+            </div>
+
+            <!-- Subhashitas -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>📜 सुभाषितानि (Wise Sayings)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="shloka-container">
+                        <div class="shloka-text">
+                            उष्ट्राणां च विवाहेषु गीतं गायन्ति गर्दभाः ।<br>
+                            परस्परं प्रशंसन्ति "अहो रूपम्!" "अहो ध्वनिः!" ॥
+                        </div>
+                        <div class="shloka-meaning">
+                            <strong>Meaning:</strong> At the wedding of camels, donkeys sing songs. They praise each other saying "What beauty!" "What voice!" 
+                            <br><em>(Satire on mutual false praise)</em>
+                        </div>
+                    </div>
+
+                    <div class="shloka-container">
+                        <div class="shloka-text">
+                            तृणाल्लघुतरस्तूलस्तूलादपि च याचकः ।<br>
+                            वायुना किं न नीतोऽसौ मामयं प्रार्थयेदिति ॥
+                        </div>
+                        <div class="shloka-meaning">
+                            <strong>Meaning:</strong> Cotton is lighter than grass, and a beggar is lighter than cotton. Why doesn't the wind carry him away? Because he might ask me for something!
+                            <br><em>(Humor about persistent beggars)</em>
+                        </div>
+                    </div>
+
+                    <div class="shloka-container">
+                        <div class="shloka-text">
+                            चित्ते प्रसन्ने भुवनं प्रसन्नं चित्ते विषण्णे भुवनं विषण्णम् ।<br>
+                            अतोऽभिलाषो यदि ते सुखे स्यात् चित्तप्रसादे प्रथमं यतस्व ॥
+                        </div>
+                        <div class="shloka-meaning">
+                            <strong>Meaning:</strong> When the mind is happy, the world appears happy. When the mind is sad, the world appears sad. Therefore, if you desire happiness, first strive for peace of mind.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maharashtra Description -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>🏛️ उत्सवप्रिया देवभूमिः</h3>
+                </div>
+                <div class="card-body">
+                    <div class="shloka-container">
+                        <div class="shloka-text">
+                            गुणोत्तरो दक्षिणदिक्स्थितोऽपि सह्याश्रितोऽपि द्विषतामसह्यः ।<br>
+                            ववर्ति सर्वर्तुषु रम्यरूपो देशो महाराष्ट्रमिति प्रसिद्धः ॥
+                        </div>
+                        <div class="shloka-meaning">
+                            <strong>Meaning:</strong> Though situated in the south, it is superior in qualities. Though resting on the Sahya mountains, it is unbearable to enemies. Beautiful in all seasons, this land is famous as Maharashtra.
+                        </div>
+                    </div>
+
+                    <h4 style="margin-top: 2rem; color: var(--primary);">Festivals of Maharashtra:</h4>
+                    <div class="vocab-grid" style="margin-top: 1rem;">
+                        <div class="vocab-item">
+                            <div class="vocab-sanskrit">गणेशचतुर्थी</div>
+                            <div class="vocab-meaning">Ganesh Festival</div>
+                        </div>
+                        <div class="vocab-item">
+                            <div class="vocab-sanskrit">गुढीपाडवा</div>
+                            <div class="vocab-meaning">Marathi New Year</div>
+                        </div>
+                        <div class="vocab-item">
+                            <div class="vocab-sanskrit">होलिकोत्सवः</div>
+                            <div class="vocab-meaning">Holi Festival</div>
+                        </div>
+                        <div class="vocab-item">
+                            <div class="vocab-sanskrit">दीपावली</div>
+                            <div class="vocab-meaning">Diwali</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dialogues Section -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h3>💬 संवादाः (Dialogues)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="interactive-box" style="background: var(--light);">
+                        <h4>कृष्ण-यशोदा संवादः</h4>
+                        <p><strong>बलरामः:</strong> अम्ब, रन्तुं गतेन कृष्णेन अधुना स्वेच्छया मृद् भक्षिता!</p>
+                        <p><strong>अम्बा:</strong> सत्यं कृष्ण?</p>
+                        <p><strong>कृष्णः:</strong> कः एवम् आह?</p>
+                        <p><strong>अम्बा:</strong> मुसली।</p>
+                        <p><strong>कृष्णः:</strong> अम्ब, मिथ्या; आननं पश्य।</p>
+                        <button class="btn btn-secondary" onclick="showTranslation('dialogue1')">Show Translation</button>
+                        <div id="dialogue1" style="display: none; margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                            <strong>Translation:</strong><br>
+                            Balaram: Mother, Krishna went to play and ate mud willingly!<br>
+                            Mother: Is it true, Krishna?<br>
+                            Krishna: Who said so?<br>
+                            Mother: Balaram.<br>
+                            Krishna: Mother, it's false; look at my mouth.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Section -->
+        <section id="practice" class="chapter-section">
+            <div class="chapter-header">
+                <h1 class="chapter-title">Practice & Exercises</h1>
+                <p class="chapter-subtitle">Test your knowledge and improve your skills</p>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="interactive-box">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">📝 Quick Quiz</h2>
+                <div class="quiz-container">
+                    <div class="question-box">
+                        <div class="question" id="questionText">What is the Sanskrit word for "Speed Breaker"?</div>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, 'correct')">गतिरोधकः</div>
+                            <div class="option" onclick="checkAnswer(this, 'wrong')">पाठशाला</div>
+                            <div class="option" onclick="checkAnswer(this, 'wrong')">प्रवेशः</div>
+                            <div class="option" onclick="checkAnswer(this, 'wrong')">अवधानम्</div>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="justify-content: center;">
+                        <button class="btn btn-primary" onclick="nextQuestion()">Next Question →</button>
+                        <button class="btn btn-secondary" onclick="resetQuiz()">Reset Quiz</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcards -->
+            <div class="interactive-box">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🎴 Flashcards</h2>
+                <div class="flashcard" onclick="flipCard()">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-face flashcard-front">
+                            <div class="flashcard-content">
+                                <div class="flashcard-main">वीणा</div>
+                                <div class="flashcard-sub">Click to reveal meaning</div>
+                            </div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div class="flashcard-content">
+                                <div class="flashcard-main">Lute</div>
+                                <div class="flashcard-sub">Musical Instrument</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group" style="justify-content: center;">
+                    <button class="btn btn-primary" onclick="nextFlashcard()">Next Card →</button>
+                    <button class="btn btn-secondary" onclick="shuffleFlashcards()">Shuffle</button>
+                </div>
+            </div>
+
+            <!-- Writing Practice -->
+            <div class="interactive-box">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">✍️ Writing Practice</h2>
+                <div style="background: var(--light); padding: 1.5rem; border-radius: 10px;">
+                    <p><strong>Complete the sentence:</strong></p>
+                    <p style="font-size: 1.2rem; margin: 1rem 0;">गतिरोधकः _______ (ahead)</p>
+                    <input type="text" id="writingInput" style="width: 100%; padding: 0.8rem; border: 2px solid var(--primary); border-radius: 8px; font-size: 1.1rem;">
+                    <button class="btn btn-primary" style="margin-top: 1rem;" onclick="checkWriting()">Check Answer</button>
+                    <div id="writingFeedback" style="margin-top: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Study Tools Section -->
+        <section id="tools" class="chapter-section">
+            <div class="chapter-header">
+                <h1 class="chapter-title">Study Tools & Resources</h1>
+                <p class="chapter-subtitle">Everything you need to master Sanskrit</p>
+            </div>
+
+            <div class="tools-grid">
+                <div class="tool-card" onclick="openTool('dictionary')">
+                    <div class="tool-icon">📖</div>
+                    <div class="tool-title">Dictionary</div>
+                    <div class="tool-desc">Quick word lookup with meanings</div>
+                </div>
+
+                <div class="tool-card" onclick="openTool('pronunciation')">
+                    <div class="tool-icon">🔊</div>
+                    <div class="tool-title">Pronunciation Guide</div>
+                    <div class="tool-desc">Audio pronunciation for all words</div>
+                </div>
+
+                <div class="tool-card" onclick="openTool('notes')">
+                    <div class="tool-icon">📝</div>
+                    <div class="tool-title">My Notes</div>
+                    <div class="tool-desc">Save and organize your notes</div>
+                </div>
+
+                <div class="tool-card" onclick="openTool('progress')">
+                    <div class="tool-icon">📊</div>
+                    <div class="tool-title">Progress Tracker</div>
+                    <div class="tool-desc">Monitor your learning journey</div>
+                </div>
+
+                <div class="tool-card" onclick="openTool('games')">
+                    <div class="tool-icon">🎮</div>
+                    <div class="tool-title">Learning Games</div>
+                    <div class="tool-desc">Fun games to practice Sanskrit</div>
+                </div>
+
+                <div class="tool-card" onclick="openTool('exam')">
+                    <div class="tool-icon">📋</div>
+                    <div class="tool-title">Exam Prep</div>
+                    <div class="tool-desc">HSC exam practice papers</div>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">📈 Your Progress</h2>
+                <div>
+                    <h4>Overall Completion</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 35%">35%</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4>Chapter 1 Progress</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%">60%</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4>Chapter 2 Progress</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%">20%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="interactive-box">
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">🏆 Achievements</h2>
+                <div class="achievements">
+                    <div class="badge">
+                        <div class="badge-icon">🌟</div>
+                        <div class="badge-name">First Steps</div>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-icon">📚</div>
+                        <div class="badge-name">Word Master</div>
+                    </div>
+                    <div class="badge locked">
+                        <div class="badge-icon">🎯</div>
+                        <div class="badge-name">Quiz Champion</div>
+                    </div>
+                    <div class="badge locked">
+                        <div class="badge-icon">🏅</div>
+                        <div class="badge-name">Sanskrit Scholar</div>
+                    </div>
+                    <div class="badge locked">
+                        <div class="badge-icon">👑</div>
+                        <div class="badge-name">HSC Ready</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Tools -->
+    <div class="modal" id="toolModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Tool Title</h2>
+                <span class="modal-close" onclick="closeModal()">×</span>
+            </div>
+            <div id="modalBody">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global Variables
+        let currentChapter = 'intro';
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let flashcardIndex = 0;
+
+        // Flashcard Data
+        const flashcards = [
+            { sanskrit: 'वीणा', meaning: 'Lute', category: 'Musical Instrument' },
+            { sanskrit: 'गतिरोधकः', meaning: 'Speed Breaker', category: 'Traffic Sign' },
+            { sanskrit: 'चतुरङ्गः', meaning: 'Chess', category: 'Sports' },
+            { sanskrit: 'रङ्गशाला', meaning: 'Theatre', category: 'Drama' },
+            { sanskrit: 'पाठशाला', meaning: 'School', category: 'Education' },
+            { sanskrit: 'जलतरणम्', meaning: 'Swimming', category: 'Sports' },
+            { sanskrit: 'सूत्रधारः', meaning: 'Stage Director', category: 'Drama' },
+            { sanskrit: 'प्रवेशः निषिद्धः', meaning: 'No Entry', category: 'Traffic Sign' }
+        ];
+
+        // Quiz Questions
+        const quizQuestions = [
+            {
+                question: "What is the Sanskrit word for 'Speed Breaker'?",
+                options: ["गतिरोधकः", "पाठशाला", "प्रवेशः", "अवधानम्"],
+                correct: 0
+            },
+            {
+                question: "What does 'पाठशाला अग्रे' mean?",
+                options: ["No Entry", "School Ahead", "One Way", "Sharp Turn"],
+                correct: 1
+            },
+            {
+                question: "Which instrument is 'वीणा'?",
+                options: ["Flute", "Drum", "Lute", "Cymbal"],
+                correct: 2
+            },
+            {
+                question: "What is 'Chess' in Sanskrit?",
+                options: ["चतुरङ्गः", "कन्दुकक्रीडा", "मल्लक्रीडा", "जलतरणम्"],
+                correct: 0
+            },
+            {
+                question: "Which tense is 'लट्'?",
+                options: ["Past", "Present", "Future", "Perfect"],
+                correct: 1
+            }
+        ];
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            updateFlashcard();
+        });
+
+        // Switch Chapter
+        function switchChapter(chapter) {
+            // Hide all chapters
+            document.querySelectorAll('.chapter-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected chapter
+            document.getElementById(chapter).classList.add('active');
+            
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentChapter = chapter;
+            saveProgress();
+        }
+
+        // Start Learning
+        function startLearning() {
+            switchChapter('chapter1');
+            document.querySelector('.nav-tab[onclick="switchChapter(\'chapter1\')"]').click();
+        }
+
+        // Play Word Pronunciation (Simulated)
+        function playWord(word) {
+            // In a real app, this would play audio
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+            
+            // Visual feedback
+            event.target.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                event.target.style.transform = '';
+            }, 200);
+        }
+
+        // Show Translation
+        function showTranslation(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+                event.target.textContent = 'Hide Translation';
+            } else {
+                element.style.display = 'none';
+                event.target.textContent = 'Show Translation';
+            }
+        }
+
+        // Quiz Functions
+        function checkAnswer(element, result) {
+            // Remove previous selections
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            if (result === 'correct') {
+                element.classList.add('correct');
+                score++;
+            } else {
+                element.classList.add('incorrect');
+                // Show correct answer
+                document.querySelectorAll('.option')[quizQuestions[currentQuestionIndex].correct].classList.add('correct');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex = (currentQuestionIndex + 1) % quizQuestions.length;
+            const question = quizQuestions[currentQuestionIndex];
+            
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsHTML = question.options.map((option, index) => 
+                `<div class="option" onclick="checkAnswer(this, ${index === question.correct ? '\'correct\'' : '\'wrong\''})">${option}</div>`
+            ).join('');
+            
+            document.querySelector('.options').innerHTML = optionsHTML;
+        }
+
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            nextQuestion();
+        }
+
+        // Flashcard Functions
+        function flipCard() {
+            document.querySelector('.flashcard').classList.toggle('flipped');
+        }
+
+        function updateFlashcard() {
+            const card = flashcards[flashcardIndex];
+            document.querySelector('.flashcard-front .flashcard-main').textContent = card.sanskrit;
+            document.querySelector('.flashcard-back .flashcard-main').textContent = card.meaning;
+            document.querySelector('.flashcard-back .flashcard-sub').textContent = card.category;
+            
+            // Reset flip state
+            document.querySelector('.flashcard').classList.remove('flipped');
+        }
+
+        function nextFlashcard() {
+            flashcardIndex = (flashcardIndex + 1) % flashcards.length;
+            updateFlashcard();
+        }
+
+        function shuffleFlashcards() {
+            flashcardIndex = Math.floor(Math.random() * flashcards.length);
+            updateFlashcard();
+        }
+
+        // Writing Practice
+        function checkWriting() {
+            const input = document.getElementById('writingInput').value.trim();
+            const feedback = document.getElementById('writingFeedback');
+            
+            if (input.toLowerCase() === 'अग्रे' || input.toLowerCase() === 'agre') {
+                feedback.innerHTML = '<div style="color: var(--success); font-weight: bold;">✓ Correct! अग्रे means "ahead"</div>';
+            } else {
+                feedback.innerHTML = '<div style="color: var(--danger);">✗ Try again. Hint: The Sanskrit word starts with अ...</div>';
+            }
+        }
+
+        // Open Tool Modal
+        function openTool(tool) {
+            const modal = document.getElementById('toolModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            switch(tool) {
+                case 'dictionary':
+                    modalTitle.textContent = '📖 Sanskrit Dictionary';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <input type="text" placeholder="Search Sanskrit or English word..." style="width: 100%; padding: 0.8rem; border: 2px solid var(--primary); border-radius: 8px; margin-bottom: 1rem;">
+                            <div style="max-height: 400px; overflow-y: auto;">
+                                <div class="vocab-item" style="margin-bottom: 0.5rem;">
+                                    <div class="vocab-sanskrit">अग्रे</div>
+                                    <div class="vocab-meaning">ahead, in front</div>
+                                </div>
+                                <div class="vocab-item" style="margin-bottom: 0.5rem;">
+                                    <div class="vocab-sanskrit">गच्छति</div>
+                                    <div class="vocab-meaning">goes</div>
+                                </div>
+                                <div class="vocab-item" style="margin-bottom: 0.5rem;">
+                                    <div class="vocab-sanskrit">पठति</div>
+                                    <div class="vocab-meaning">reads</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'pronunciation':
+                    modalTitle.textContent = '🔊 Pronunciation Guide';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <h3>Basic Pronunciation Rules:</h3>
+                            <ul style="line-height: 2; margin-top: 1rem;">
+                                <li><strong>अ (a)</strong> - like 'u' in 'but'</li>
+                                <li><strong>आ (ā)</strong> - like 'a' in 'father'</li>
+                                <li><strong>इ (i)</strong> - like 'i' in 'bit'</li>
+                                <li><strong>ई (ī)</strong> - like 'ee' in 'feet'</li>
+                                <li><strong>उ (u)</strong> - like 'u' in 'put'</li>
+                                <li><strong>ऊ (ū)</strong> - like 'oo' in 'boot'</li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 1rem;">Practice with Audio</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'notes':
+                    modalTitle.textContent = '📝 My Notes';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <textarea placeholder="Write your notes here..." style="width: 100%; height: 200px; padding: 1rem; border: 2px solid var(--primary); border-radius: 8px; margin-bottom: 1rem;"></textarea>
+                            <button class="btn btn-primary">Save Notes</button>
+                            <div style="margin-top: 2rem;">
+                                <h4>Saved Notes:</h4>
+                                <div style="background: var(--light); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+                                    <p>No saved notes yet.</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'progress':
+                    modalTitle.textContent = '📊 Progress Tracker';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <h3>Learning Statistics</h3>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                                <div style="background: var(--light); padding: 1rem; border-radius: 8px;">
+                                    <h4>Words Learned</h4>
+                                    <p style="font-size: 2rem; font-weight: bold; color: var(--primary);">47</p>
+                                </div>
+                                <div style="background: var(--light); padding: 1rem; border-radius: 8px;">
+                                    <h4>Quiz Score</h4>
+                                    <p style="font-size: 2rem; font-weight: bold; color: var(--success);">85%</p>
+                                </div>
+                                <div style="background: var(--light); padding: 1rem; border-radius: 8px;">
+                                    <h4>Study Streak</h4>
+                                    <p style="font-size: 2rem; font-weight: bold; color: var(--secondary);">7 Days</p>
+                                </div>
+                                <div style="background: var(--light); padding: 1rem; border-radius: 8px;">
+                                    <h4>Time Spent</h4>
+                                    <p style="font-size: 2rem; font-weight: bold; color: var(--info);">12h</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'games':
+                    modalTitle.textContent = '🎮 Learning Games';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <div class="tools-grid">
+                                <div class="tool-card" style="cursor: pointer;">
+                                    <div class="tool-icon">🎯</div>
+                                    <div class="tool-title">Word Match</div>
+                                </div>
+                                <div class="tool-card" style="cursor: pointer;">
+                                    <div class="tool-icon">🧩</div>
+                                    <div class="tool-title">Sentence Builder</div>
+                                </div>
+                                <div class="tool-card" style="cursor: pointer;">
+                                    <div class="tool-icon">⏱️</div>
+                                    <div class="tool-title">Speed Quiz</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'exam':
+                    modalTitle.textContent = '📋 HSC Exam Preparation';
+                    modalBody.innerHTML = `
+                        <div style="padding: 1rem;">
+                            <h3>Exam Resources</h3>
+                            <div style="margin-top: 1rem;">
+                                <button class="btn btn-primary" style="width: 100%; margin-bottom: 0.5rem;">Download Previous Year Papers</button>
+                                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Practice Mock Test</button>
+                                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.5rem;">Important Questions</button>
+                                <button class="btn btn-secondary" style="width: 100%;">Exam Tips & Strategies</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            modal.classList.add('active');
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('toolModal').classList.remove('active');
+        }
+
+        // Save Progress
+        function saveProgress() {
+            const progress = {
+                currentChapter: currentChapter,
+                score: score,
+                flashcardIndex: flashcardIndex,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('sanskritProgress', JSON.stringify(progress));
+        }
+
+        // Load Progress
+        function loadProgress() {
+            const saved = localStorage.getItem('sanskritProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                currentChapter = progress.currentChapter || 'intro';
+                score = progress.score || 0;
+                flashcardIndex = progress.flashcardIndex || 0;
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('toolModal');
+            if (event.target === modal) {
+                modal.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
